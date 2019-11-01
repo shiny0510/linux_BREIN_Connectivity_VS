@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="ReaderEngin/txtReader4.js"></script>
+
+<script type="text/javascript" src="js/three.js"></script>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript" src="js/OrbitControls.js"></script>
+<script type="text/javascript" src="js/OBJLoader.js"></script>
+<script type="text/javascript" src="js/OBJLoader2.js"></script>
+<script type="text/javascript" src="ReaderEngin/OutputEngin.js"></script>
+
+</head>
+<body>
+	<script>
+		var container;
+		var camera, controls, scene, renderer;
+		var lighting, ambient, keyLight, fillLight, backLight;
+		const fileLoader = new THREE.FileLoader();
+		const objLoader1 = new THREE.OBJLoader();
+
+		function colormap() {
+
+			var random_array = [];
+
+			max1 = 5;
+			min1 = 0;
+			var lhc_array_len = lhc_array.length;
+			for (var i = 0; i < lhc_array_len; i++) { //lh_c.length
+				random_array[i] = Math.floor(Math.random() * (max1 - min1 + 1))+ min1;
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ min, max 구하기 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			var max = Math.max.apply(null, random_array);
+
+			var min
+			for (var i = 0; i < random_array.length; i++) {
+				if (random_array[i] != 0) {
+					if (!min) {
+						min = random_array[i];
+					}
+					
+
+					if (min > random_array[i]) {
+						min = random_array[i];
+						
+					}
+				}
+			}
+			
+			alert(jetcolor_array[64][0]);
+			alert("min");
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 노말리제이션 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			var nor_a = [];
+			for (var i = 0; i < jetcolor_array.length; i++) {
+				if (random_array[i] != 0) {
+					nor_a[i] = Math.round(((random_array[i] - min) / (max - min)) * jetcolor_array.length);
+				} else {
+					nor_a[i] = null;
+				}
+			}
+			alert(jetcolor_array.length);
+			alert(nor_a.length);
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 컬러매칭 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			col_map = [];
+			for (var i = 0; i < nor_a.length; i++) {
+				if (nor_a[i] != null) {
+					col_map[i] = jetcolor_array[nor_a[i]];
+				} else {
+					col_map[i] = null;
+				}
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ lh_c 매칭 와 컬러와 묶음■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+			lhc_color = [];
+			color_count = 0;
+			for (var i = 0; i < lhc_array.length; i++) {
+				if (col_map[i] != null) {
+					lhc_color[color_count] = [ lhc_array[i], col_map[i][0], col_map[i][1], col_map[i][2] ];
+					color_count += 1;
+				}
+			}
+			
+			alert("라벨메칭");
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ label 매칭 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			var lhc_color_len = lhc_color.length;
+			var lhlabel_array_len = lhlabel_array.length;
+
+			final_laber = [];
+			final_vertices = [];
+			for (var i = 0; i < lhc_color_len; i++) {
+				final_vertices[i] = [];
+			}
+
+			final_vertices_count = 0;
+
+			
+			for (var i = 0; i < color_count; i++) {
+				final_vertices_count = 0;
+				for (var j = 0; j < lhlabel_array_len; j++) {
+					if (parseInt(lhc_color[i][0]) == parseInt(lhlabel_array[j])) {
+						final_vertices[i][final_vertices_count] = j + 1;
+						final_vertices_count += 1;
+					}
+				}
+			}
+			
+
+			alert("라벨메칭 끝");
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■face 뽑기 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
+
+			faces_array = new Array(); //모든 faces를 담을 배열
+
+			var faces_count = 0; // faces_array의 카운터
+
+			for (var i = 0; i < obj_array.length; i++) {
+
+				a = String(obj_array[i][0]);
+				a1 = a.replace(/\n/g, ""); //행바꿈
+
+				if (a1 == "f") {
+					faces_array[faces_count] = obj_array[i];
+					faces_count += 1;
+				}
+			}
+			
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■faces 매칭 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
+			
+
+			/* document.write(final_faces); */
+
+			objLoader1.setPath('assets/');
+
+			loadObj('objmesh', '/lhmesh.obj', addPlaneToSceneSOAnswer);
+
+			function loadObj(objName, objurl, onLoadfunc) {
+
+				fileLoader.setPath('assets/');
+				fileLoader.load(objurl, function(onLoadContent) {
+					var mesh = objLoader1.parse(onLoadContent);
+					onLoadfunc(mesh);
+				});
+			}
+
+			function addPlaneToSceneSOAnswer(mesh) {
+				
+				
+				var frontMaterial = new THREE.MeshLambertMaterial({
+					color : 0xffffff,
+					side : THREE.FrontSide
+				});
+
+				var geometry = new THREE.Geometry()
+						.fromBufferGeometry(mesh.children[0].geometry);
+				var length = geometry.faces.length;
+
+				geometry.faces.splice(14, 1);
+				
+				/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■faces 매칭 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
+				
+	
+			var faces_array_len = faces_array.length;
+
+			/* final_sub */
+			
+			var final_vertices_len = final_vertices.length;
+			
+			alert("확인");
+			alert(color_count);
+			alert(final_vertices_count);
+			alert(faces_count); 	
+			
+			alert(typeof final_vertices[1][0]);
+			alert(typeof faces_array[1][1]);
+			 
+			
+			
+			/* 
+			 for (var i = 0; i < final_vertices_count; i++) {
+			for (var j = 0; j < faces_array_len; j++) {
+				if (final_vertices[1][i] == faces_array[j][1]||final_vertices[1][i] == faces_array[j][2]||final_vertices[1][i] == faces_array[j][3]) {
+
+					Final_ROI1 = j;
+					var face = geometry.faces[Final_ROI1 - 1];
+					
+					r = lhc_color[i][1];
+					g = lhc_color[i][2];
+					b = lhc_color[i][3];
+
+					face.color.setRGB(r, g, b);
+				}
+
+			}
+		} 
+		 */
+				 for (var i = 0; i < final_vertices_count; i++) {
+					for (var j = 0; j < faces_array_len; j++) {
+						if (final_vertices[1][i] == faces_array[j][1]) {
+
+							Final_ROI1 = j;
+							var face = geometry.faces[Final_ROI1 - 1];
+							face.color.setRGB(0, 0, 0);
+						}
+
+						if (final_vertices[1][i] == faces_array[j][2]) {
+
+							Final_ROI2 = j;
+							var face = geometry.faces[Final_ROI2 - 1];
+							face.color.setRGB(0, 0, 0);
+						}
+
+						if (final_vertices[1][i] == faces_array[j][3]) {
+							Final_ROI3 = j;
+							var face = geometry.faces[Final_ROI3 - 1];
+							face.color.setRGB(0, 0, 0);
+						}
+
+					}
+				} 
+
+				mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
+					vertexColors : THREE.FaceColors
+				}));
+				mesh.scale.set(0.01, 0.01, 0.01);
+				scene.add(mesh);
+
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth
+						/ window.innerHeight, 0.1, 100);
+
+				camera.position.x = 0;
+				camera.position.y = 0;
+				camera.position.z = 2;
+
+				controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+				controls.enableDamping = true;
+				controls.dampingFactor = 0.1;
+				controls.enableZoom = true;
+
+			}
+
+			init();
+		}
+		function init() {
+
+			container = document.createElement('div');
+			document.body.appendChild(container);
+
+			/* Scene */
+
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color(0xffffff);
+			/*조명*/
+			/*ambient = new THREE.AmbientLight(0xffffff, 0.8); */
+
+			/* 포인트 광원을 흰색으로 만들고 나서 입방체의 윗면과 앞면에 빛이 비치도록 */
+			var pointLight = new THREE.PointLight(0xffffff);
+			pointLight.position.set(20, 20, 20);
+			var pointLight1 = new THREE.PointLight(0xffffff);
+			pointLight1.position.set(-20, -20, -20);
+			scene.add(pointLight);
+			scene.add(pointLight1);
+
+			/* Renderer */
+			renderer = new THREE.WebGLRenderer();
+
+			/*읽기 전용 현재 디스플레이 장치 상의 물리적인 픽셀의 비율을 반환*/
+			renderer.setPixelRatio(window.devicePixelRatio);
+
+			/*뷰어 사이즈 설정*/
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			container.appendChild(renderer.domElement);
+
+			/* 창크기 조절 */
+			window.addEventListener('resize', onWindowResize);
+			animate();
+
+		}
+
+		/*창크기에 맞게 변경*/
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+
+			/*카메라 투영 행렬을 업데이트*/
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		/*화면시각변화*/
+		function animate() {
+			requestAnimationFrame(animate);
+			controls.update();
+			render();
+		}
+
+		function render() {
+			renderer.render(scene, camera);
+		}
+
+		window.onload = Engin();
+	</script>
+</body>
+
+</html>

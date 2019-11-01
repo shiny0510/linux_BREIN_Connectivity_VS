@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="ReaderEngin/txtReader3.js"></script>
+
+<script type="text/javascript" src="js/three.js"></script>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript" src="js/OrbitControls.js"></script>
+<script type="text/javascript" src="js/OBJLoader.js"></script>
+<script type="text/javascript" src="js/OBJLoader2.js"></script>
+
+</head>
+<body>
+	<script>
+		var container;
+		var camera, controls, scene, renderer;
+		var lighting, ambient, keyLight, fillLight, backLight;
+		const fileLoader = new THREE.FileLoader();
+		const objLoader1 = new THREE.OBJLoader();
+
+		function colormap() {
+
+			var random_array = [];
+
+			max = 5;
+			min = 0;
+			var lhc_array_len = lhc_array.length;
+			for (var i = 0; i < lhc_array_len; i++) { //lh_c.length
+				random_array[i] = Math.floor(Math.random() * (max - min + 1))
+						+ min;
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ min, max 구하기 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			var max = Math.max.apply(null, random_array);
+
+			var min
+			for (var i = 0; i < random_array.length; i++) {
+				if (random_array[i] != 0) {
+					if (!min) {
+						min = random_array[i];
+					}
+
+					if (min > random_array[i]) {
+						min = random_array[i];
+					}
+				}
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 노말리제이션 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			var nor_a = new Array();
+			for (var i = 0; i < lhc_array.length; i++) {
+				if ((random_array[i] - min) >= 0) {
+					nor_a[i] = Math
+							.round(((random_array[i] - min) / (max - min))
+									* lhc_array.length);
+				} else {
+					nor_a[i] = null;
+				}
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 컬러매칭 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			col_map = [];
+			for (var i = 0; i < nor_a.length; i++) {
+				if (nor_a[i] != null) {
+					col_map[i] = jetcolor_array[nor_a[i]];
+				} else {
+					col_map[i] = null;
+				}
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ lh_c 매칭 와 컬러와 묶음■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+			var lhc_color = [];
+			var color_count = 0;
+			for (var i = 0; i < lhc_array.length; i++) {
+				if (col_map[i] != null) {
+					lhc_color[color_count] = [ parseInt(lhc_array[i]),
+							col_map[i][0], col_map[i][1], col_map[i][2] ];
+					color_count += 1;
+				}
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ label 매칭 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+			/* 	alert("테스트");
+				alert(lhlabel_array); */
+			var lhc_color_len = lhc_color.length;
+			var lhlabel_array_len = lhlabel_array.length;
+
+			var final_laber = [];
+			var final_vertices = [];
+			/*★*/
+			for (var i = 0; i < lhc_color_len; i++) {
+				final_vertices[i] = [];
+			}
+
+
+			for (var i = 0; i < lhc_color_len; i++) {
+				final_vertices_count = 0;
+				for (var j = 0; j < lhlabel_array_len; j++) {
+					if (lhc_color[i][0] == lhlabel_array[j][0]) {
+						final_vertices[i][final_vertices_count] = j + 1;
+						final_vertices_count += 1;
+					}
+				}
+			}
+
+			alert("파이널");
+
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■face 뽑기 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
+
+			var faces_array = []; //모든 faces를 담을 배열
+
+			var faces_count = 0; // faces_array의 카운터
+
+			for (var i = 0; i < obj_array.length; i++) {
+
+				a = String(obj_array[i][0]);
+				a1 = a.replace(/\n/g, ""); //행바꿈
+
+				if (a1 == "f") {
+					faces_array[faces_count] = obj_array[i];
+					faces_count += 1;
+				}
+			}
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■faces 매칭 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
+
+			alert("faces 매칭 시작");
+	
+			var faces_array_len = faces_array.length;
+
+			/* final_sub */
+
+			var final_faces = [];
+
+			for (var i = 0; i < final_vertices.length; i++) {
+				final_faces[i] = [];
+			}
+			
+			var final_vertices_len = final_vertices.length;
+
+			/* for (var a = 0; a < final_vertices_len; a++) {
+			for (var i = 0; i < lhlabel_array_len; i++) {
+				if (final_vertices[a][i] != null) {
+					for (var j = 0; j < faces_array_len; j++) {
+							if (final_vertices[a][i] == faces_array[j][1]) {
+								final_faces[a][final_faces_count] = j;
+								final_faces_count += 1;
+							}
+						}
+					}
+					for (var k = 0; k < faces_array_len; k++) {
+						if (final_vertices[a][i] == faces_array[k][2]) {
+							for (var r = 0; r < final_faces.length; r++) {
+								two = 1;
+								if (final_faces[r] == k) {
+									break;
+								} else {
+									two = 2;
+								}
+							}
+							if (two == 2) {
+								final_faces[a][final_faces_count] = k;
+								final_faces_count += 1;
+							}
+						}
+					}
+					for (var l = 0; l < faces_array_len; l++) {
+						if (final_vertices[a][i] == faces_array[l][3]) {
+							for (var g = 0; g < final_faces.length; g++) {
+								two = 1;
+								if (final_faces[g] == k) {
+									break;
+								} else {
+									two = 2;
+								}
+							}
+							if (two == 2) {
+								final_faces[a][final_faces_count] = l;
+								final_faces_count += 1;
+							}
+						}
+					}
+				} else {
+					break;
+				}
+			}
+			}  */
+			alert("faces 계산 시작");
+			for (var a = 0; a < final_vertices_len; a++) {
+				for (var i = 0; i < lhlabel_array_len; i++) {				
+					 final_faces_count = 0;
+					 if (final_vertices[a][i] != null) {
+						for (var j = 0; j < faces_array_len; j++) {
+							if (final_vertices[a][i] == faces_array[j][1]) {
+								final_faces[a][final_faces_count] = j;
+								final_faces_count += 1;
+							}
+						}
+						for (var k = 0; k < faces_array_len; k++) {
+							if (final_vertices[a][i] == faces_array[k][2]) {
+								final_faces[a][final_faces_count] = k;
+								final_faces_count += 1;
+							}
+						}
+						for (var l = 0; l < faces_array_len; l++) {
+							if (final_vertices[a][i] == faces_array[l][3]) {
+								final_faces[a][final_faces_count] = l;
+								final_faces_count += 1;
+							}
+						}
+					} else {
+						break;
+					}
+				}
+			}
+			alert("성공");
+			alert(final_faces[1]);
+			/* document.write(final_faces); */
+
+			objLoader1.setPath('assets/');
+
+			loadObj('objmesh', '/lhmesh.obj', addPlaneToSceneSOAnswer);
+
+			function loadObj(objName, objurl, onLoadfunc) {
+
+				fileLoader.setPath('assets/');
+				fileLoader.load(objurl, function(onLoadContent) {
+					var mesh = objLoader1.parse(onLoadContent);
+					onLoadfunc(mesh);
+				});
+			}
+
+			function addPlaneToSceneSOAnswer(mesh) {
+				var frontMaterial = new THREE.MeshLambertMaterial({
+					color : 0xffffff,
+					side : THREE.FrontSide
+				});
+
+				var geometry = new THREE.Geometry()
+						.fromBufferGeometry(mesh.children[0].geometry);
+				var length = geometry.faces.length;
+
+				geometry.faces.splice(14, 1);
+
+				final_faces_len = final_faces.length;
+
+				for (var a = 0; a < lhc_color_len; a++) {
+					for (var i = 0; i < faces_array_len; i++) {
+						if (final_faces[a][i] != null) {
+							Final_ROI = final_faces[a][i];
+							var face = geometry.faces[parseInt(Final_ROI) - 1];
+
+							const r = parseFloat(lhc_color[a][1]);
+							const g = parseFloat(lhc_color[a][2]);
+							const b = parseFloat(lhc_color[a][3]);
+
+							face.color.setRGB(r, g, b);
+						}
+
+					}
+				}
+
+				mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
+					vertexColors : THREE.FaceColors
+				}));
+				mesh.scale.set(0.01, 0.01, 0.01);
+				scene.add(mesh);
+
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth
+						/ window.innerHeight, 0.1, 100);
+
+				camera.position.x = 0;
+				camera.position.y = 0;
+				camera.position.z = 2;
+
+				controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+				controls.enableDamping = true;
+				controls.dampingFactor = 0.1;
+				controls.enableZoom = true;
+
+			}
+
+			init();
+		}
+		function init() {
+
+			container = document.createElement('div');
+			document.body.appendChild(container);
+
+			/* Scene */
+
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color(0xffffff);
+			/*조명*/
+			/*ambient = new THREE.AmbientLight(0xffffff, 0.8); */
+
+			/* 포인트 광원을 흰색으로 만들고 나서 입방체의 윗면과 앞면에 빛이 비치도록 */
+			var pointLight = new THREE.PointLight(0xffffff);
+			pointLight.position.set(20, 20, 20);
+			var pointLight1 = new THREE.PointLight(0xffffff);
+			pointLight1.position.set(-20, -20, -20);
+			scene.add(pointLight);
+			scene.add(pointLight1);
+
+			/* Renderer */
+			renderer = new THREE.WebGLRenderer();
+
+			/*읽기 전용 현재 디스플레이 장치 상의 물리적인 픽셀의 비율을 반환*/
+			renderer.setPixelRatio(window.devicePixelRatio);
+
+			/*뷰어 사이즈 설정*/
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			container.appendChild(renderer.domElement);
+
+			/* 창크기 조절 */
+			window.addEventListener('resize', onWindowResize);
+			animate();
+
+		}
+
+		/*창크기에 맞게 변경*/
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+
+			/*카메라 투영 행렬을 업데이트*/
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		/*화면시각변화*/
+		function animate() {
+			requestAnimationFrame(animate);
+			controls.update();
+			render();
+		}
+
+		function render() {
+			renderer.render(scene, camera);
+		}
+
+		window.onload = Engin();
+	</script>
+</body>
+
+</html>

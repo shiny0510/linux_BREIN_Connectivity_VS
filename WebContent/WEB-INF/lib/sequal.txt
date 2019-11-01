@@ -1,0 +1,31 @@
+CREATE TABLE member (
+num int auto_increment PRIMARY key not null,
+id varchar(20) not null,
+pwd varchar(20) not null,
+name varchar(20) not null,
+tel varchar(20) not null,
+mtype int default 1);
+
+
+insert into member values(null,'osh','1111','osh','01036769405',1);
+
+select *
+from member;
+
+
+create table FileManager(
+fnum int auto_increment PRIMARY key not null,
+id varchar(20) not null,
+fname varchar(20) not null,
+fpath varchar(100) not null,
+fdate timestamp default now()
+);
+
+drop table Filemanager;
+
+delete from filemanager;
+
+select * from FileManager;
+
+
+commit;

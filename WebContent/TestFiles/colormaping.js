@@ -1,0 +1,4 @@
+function colormaping(){
+	
+	ale
+}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script type="text/javascript" src="js/three.js"></script>
+<script type="text/javascript" src="js/three.min.js"></script>
+<script type="text/javascript" src="js/OrbitControls.js"></script>
+<script type="text/javascript" src="js/OBJLoader.js"></script>
+<script type="text/javascript" src="js/OBJLoader2.js"></script>
+<script type="text/javascript" src="ReaderEngin/txtReader.js"></script>
+<script type="text/javascript" src="ReaderEngin/OutputEngin.js"></script>
+<script>body {
+    background-color: #f00;
+}​</script>
+</head>
+<body>
+	<script>
+		var container;
+		var camera, controls, scene, renderer;
+		var lighting, ambient, keyLight, fillLight, backLight;
+		const fileLoader = new THREE.FileLoader();
+		const objLoader1 = new THREE.OBJLoader();
+		/* Model */
+		function Visual() {
+			var ROIIndex = parseInt(document.getElementById("output").value);
+
+			var ROI = parseInt(ROIIndex);
+
+			/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■c와 label 같은거 찾기■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+
+			lhlabel_array2 = new Array(); // 길이는 label 매칭값 추출본 배열.
+
+			var count = 0; // label_array2의 카운터 			
+
+			for (var i = 0; i < lhlabel_array.length; i++) { // 라벨 길이만큼 스캔
+
+				if (ROI == lhlabel_array[i]) { //값과 똑같은 라벨을 찾고 
+					lhlabel_array2[count] = i+1; // 그배열에 count(1씩증가) 순서대로 넣어줌
+					count += 1;
+				}
+			}
+
+			/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■face 뽑기 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ */
+
+			faces_array = new Array(); //모든 faces를 담을 배열
+
+			var faces_count = 0; // faces_array의 카운터
+
+			for (var i = 0; i < obj_array.length; i++) {
+
+				a = String(obj_array[i][0]);
+				a1 = a.replace(/\n/g, ""); //행바꿈
+
+				if (a1 == "f") {
+					faces_array[faces_count] = obj_array[i];
+					faces_count += 1;
+				}
+			}
+
+			final_face = new Array();
+
+			count2 = 0;
+
+			alert("시작");
+			alert(lhlabel_array2.length);
+			alert(faces_array.length)
+
+			for (var i = 0; i < lhlabel_array2.length; i++) {
+				
+				for (var j = 0; j < faces_array.length; j++) {
+					if (lhlabel_array2[i] == faces_array[j][1]) {
+						final_face[count2] = j;
+						count2 += 1;
+					}
+				}
+				
+				for (var k = 0; k < faces_array.length; k++) {
+					if (lhlabel_array2[i] == faces_array[k][2]) {
+						for (var r = 0; r < final_face.length; r++) {
+							two = 1;
+							if (final_face[r] == k) {
+								break;
+							} else {
+								two = 2;
+							}
+						}
+						if (two == 2) {
+							final_face[count2] = k;
+							count2 += 1;
+						}
+					}
+				}
+				for (var l = 0; l < faces_array.length; l++) {
+					if (lhlabel_array2[i] == faces_array[l][3]) {
+						for (var g = 0; g < final_face.length; g++) {
+							two = 1;
+							if (final_face[g] == l) {
+								break;
+							} else {
+								two = 2;
+							}
+						}
+						if (two == 2) {
+							final_face[count2] = l;
+							count2 += 1;
+						}
+					}
+				}
+			}
+
+			objLoader1.setPath('assets/');
+
+			loadObj('objmesh', '/lhmesh.obj', addPlaneToSceneSOAnswer);
+
+			function loadObj(objName, objurl, onLoadfunc) {
+
+				fileLoader.setPath('assets/');
+				fileLoader.load(objurl, function(onLoadContent) {
+					var mesh = objLoader1.parse(onLoadContent);
+					onLoadfunc(mesh);
+				});
+			}
+
+			function addPlaneToSceneSOAnswer(mesh) {
+				var frontMaterial = new THREE.MeshLambertMaterial({
+					color : 0xffffff,
+					side : THREE.FrontSide
+				});
+ 
+				var geometry = new THREE.Geometry()
+						.fromBufferGeometry(mesh.children[0].geometry);
+				var length = geometry.faces.length;
+
+				geometry.faces.splice(14, 1);
+
+				for (var i = 0; i < final_face.length; i++) {
+					Final_ROI = final_face[i];
+					var face = geometry.faces[parseInt(Final_ROI)-1];
+					face.color.setHSV(0.4375,1,0.5625);
+				}
+
+				mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
+					vertexColors : THREE.FaceColors
+				}));
+				mesh.scale.set(0.01, 0.01, 0.01);
+				scene.add(mesh);
+				
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth
+						/ window.innerHeight, 0.1, 100);
+
+				camera.position.x = 0;
+				camera.position.y = 0;
+				camera.position.z = 2;
+
+				controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+				controls.enableDamping = true;
+				controls.dampingFactor = 0.1;
+				controls.enableZoom = true;
+				
+			}
+
+			init();
+		}
+
+		function init() {
+			
+		
+			container = document.createElement('div');
+			document.body.appendChild(container);
+
+			/* Scene */
+
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color( 0xffffff );
+			/*조명*/
+			/*ambient = new THREE.AmbientLight(0xffffff, 0.8); */
+
+			/* 포인트 광원을 흰색으로 만들고 나서 입방체의 윗면과 앞면에 빛이 비치도록 */
+			var pointLight = new THREE.PointLight(0xffffff);
+			pointLight.position.set(20, 20, 20);
+			var pointLight1 = new THREE.PointLight(0xffffff);
+			pointLight1.position.set(-20, -20, -20);
+			scene.add(pointLight);
+			scene.add(pointLight1);
+
+			/* Renderer */
+			renderer = new THREE.WebGLRenderer();
+
+			/*읽기 전용 현재 디스플레이 장치 상의 물리적인 픽셀의 비율을 반환*/
+			renderer.setPixelRatio(window.devicePixelRatio);
+
+			/*뷰어 사이즈 설정*/
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			container.appendChild(renderer.domElement);
+
+			/* 창크기 조절 */
+			window.addEventListener('resize', onWindowResize);
+			animate();
+
+		}
+
+		/*창크기에 맞게 변경*/
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+
+			/*카메라 투영 행렬을 업데이트*/
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+		}
+
+		/*화면시각변화*/
+		function animate() {
+			requestAnimationFrame(animate);
+			controls.update();
+			render();
+		}
+
+		function render() {
+			renderer.render(scene, camera);
+		}
+	</script>
+	<table>
+		<tr>
+			<td><input type="button" onclick="Visual()" value="Mesh"
+				id="Mesh"></td>
+			<td>
+			<td><input type="button" onclick="window.location.reload();"
+				value="새로고침"> ROI index: <input type="text" id="output"
+				name="text" size="20">
+				<button onclick="Visual()">입력</button></td>
+		</tr>
+	</table>
+</body>
+</html>
