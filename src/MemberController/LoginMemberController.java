@@ -63,16 +63,28 @@ public class LoginMemberController extends HttpServlet {
 		String pwd = null;
 		
 		if(passtype.equals("0")) {
-		System.out.println("����");
 		id	= request.getParameter("id");
 		pwd	= request.getParameter("pwd");
 		session.setAttribute("id", id);
 		session.setAttribute("pwd", pwd);
+		System.out.println(id);
+		System.out.println(pwd);
+		
+		String sid=(String)session.getAttribute("id");
+		String spwd=(String)session.getAttribute("pwd");
+		System.out.println(sid);
+		System.out.println(spwd);
 		}
 		
-		if(passtype.equals("1")) {
-			id = (String) session.getAttribute("id");
-			pwd = (String) session.getAttribute("pwd");
+		if(passtype.equals("1")) {			
+			//id = (String) session.getAttribute("id"); 
+			//pwd = (String) session.getAttribute("pwd");
+			id = "osh";
+			pwd = "1111";
+			
+			System.out.println("passtype");
+			System.out.println(id);
+			System.out.println(pwd);
 		}
 		
 		boolean flag = service.login(id,pwd);				
@@ -114,9 +126,9 @@ public class LoginMemberController extends HttpServlet {
 
 				InputStream istream = getServletContext().getResourceAsStream(file);
 				if (istream == null) {
-					fnameNull.add(new FileNull("ó�� ��"));
+					fnameNull.add(new FileNull("처리 중"));
 				} else {
-					fnameNull.add(new FileNull("ó���Ϸ�"));
+					fnameNull.add(new FileNull("처리완료"));
 				}
 			}
 			request.setAttribute("listfnameNull", fnameNull);
@@ -126,15 +138,14 @@ public class LoginMemberController extends HttpServlet {
 			member m = service.getMember(id);
 		
 			/* session.setAttribute("type", m.getType()); */
-			view = "ClientFileUploadPage.jsp";
-
+			view = "/ClientFileUploadPage.jsp?id="+id+"pwd="+pwd; 
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			if (dispatcher != null) {
-				dispatcher.forward(request, response);
-			}
+			
+			  if (dispatcher != null) { dispatcher.forward(request, response); }
+			 
 		} else {
 			System.out.print("�̵�");
-			view = "LoginPage/Login.jsp";
+			view = "http://brein.korea.ac.kr/brainorigin/saf/LoginPage/Login.jsp";
 			response.sendRedirect(view); 
 			}	 
 		}

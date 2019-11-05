@@ -45,37 +45,37 @@ public class FileDatabaseAddController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		String reid = (String)session.getAttribute("id");
-		String repwd = (String)session.getAttribute("pwd");
+		//String reid = (String)session.getAttribute("id");
+		//String repwd = (String)session.getAttribute("pwd");
+		String reid = "osh";
+		String repwd = "1111";
 		
-		System.out.println("Á¡°Ë");
+		System.out.println("" + request.getSession().getServletContext().getRealPath("/"));
+		
+		String filename = request.getParameter("lists");	
+		
+		String filepath = request.getSession().getServletContext().getRealPath("/") + "ClientUpload";
+		
+		//String filepath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
 
-		
-		System.out.println("¼­ºí¸´ ÆÐ½º" + request.getSession().getServletContext().getRealPath("/"));
-		
-		String filename = request.getParameter("fname1");	
-		
-		//String filepath = request.getSession().getServletContext().getRealPath("/") + "ClientUpload";
-		
-		String filepath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
+		//String id = (String) session.getAttribute("id");
+		System.out.println("ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½");
 
-		String id = (String) session.getAttribute("id");
-		System.out.println("ÆÄÀÏ³×ÀÓ");
-		System.out.println(id);
 		System.out.println(filename);
 		System.out.println(filepath);
-		System.out.println("ÆÄÀÏ³×ÀÓ2");
+		System.out.println("ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½2");
 		
 		FMService service = new FMServiceImpl(new FMDaoImpl());
 		
 		/* String id = request.getParameter("id"); */
 		
-		/* int type = Integer.parseInt(request.getParameter("type")); */ //º¸·ù
+		/* int type = Integer.parseInt(request.getParameter("type")); */ //ï¿½ï¿½ï¿½ï¿½
 			
+		String id = "osh";
 		
 		FileManager f = new FileManager(0,id,filename,filepath,null);
 		service.addFile(f);
-		String view = "/LoginMemberController?id=reid & pwd=repwd";
+		String view = "/LoginMemberController?passtype=1&id="+reid+"&pwd="+repwd;
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);

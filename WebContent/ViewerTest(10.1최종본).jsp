@@ -42,7 +42,7 @@
 		}
 
 		function FileReadEngin() {
-			alert("파일 로드");
+			//alert("파일 로드");
 			var lhc_xhr;
 			lhc_xhr = new XMLHttpRequest();
 			lhc_xhr.open("get", "txt/c.txt", true); // c에서 RGB 제거한 값
@@ -186,8 +186,8 @@
 			var matrix_xhr = new XMLHttpRequest();
 
 			var fmainfile= '<%=fname%>';
-			alert("fname");
-			alert(fmainfile);
+			//alert("fname");
+			//alert(fmainfile);
 			mainfile = "matrixFile/" + String(fmainfile);
 
 			matrix_xhr.open("get", mainfile, true);
@@ -435,8 +435,8 @@
 														col_map[i][1],
 														col_map[i][2] ];
 											}
-											alert("random_array");
-											alert(lhc_color);
+											//alert("random_array");
+											//alert(lhc_color);
 											/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ label 매칭 => indexcolor테이블 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 
 											var lhlabel_array_len = lhlabel_array.length;

@@ -82,7 +82,7 @@
 			}
 		}
 		function FileReadEngin() {
-			alert("파일 로드");
+			//alert("파일 로드");
 			var lhc_xhr;
 			lhc_xhr = new XMLHttpRequest();
 			lhc_xhr.open("get", "txt/c.txt", true); // c에서 RGB 제거한 값
@@ -91,7 +91,7 @@
 					if (lhc_xhr.status == 200) {
 						lhc_process();
 					} else {
-						alert("요청 실패: " + lhc_xhr.status);
+						//alert("요청 실패: " + lhc_xhr.status);
 					}
 				}
 			}
@@ -121,7 +121,7 @@
 					if (lhlabel_xhr.status == 200) {
 						lhlabel_process();
 					} else {
-						alert("요청 실패: " + lhlabel_xhr.status);
+						//alert("요청 실패: " + lhlabel_xhr.status);
 					}
 				}
 			}
@@ -152,7 +152,7 @@
 					if (CConnect_xhr.status == 200) {
 						CConnect_process();
 					} else {
-						alert("요청 실패: " + CConnect_xhr.status);
+						//alert("요청 실패: " + CConnect_xhr.status);
 					}
 				}
 			}
@@ -181,7 +181,7 @@
 					if (obj_xhr.status == 200) {
 						obj_process();
 					} else {
-						alert("요청 실패: " + obj_xhr.status);
+						//alert("요청 실패: " + obj_xhr.status);
 					}
 				}
 			}
@@ -212,7 +212,7 @@
 					if (jetcolor_xhr.status == 200) {
 						jetcolor_process();
 					} else {
-						alert("요청 실패: " + obj_xhr.status);
+						//alert("요청 실패: " + obj_xhr.status);
 					}
 				}
 			}
@@ -230,8 +230,8 @@
 					}
 					
 				}
-				alert("jetcolorarry");
-				alert(jetcolor_array.length);
+				//alert("jetcolorarry");
+				//alert(jetcolor_array.length);
 				matrixfile();
 			}
 		}
@@ -239,8 +239,8 @@
 		function matrixfile() {
 			var matrix_xhr = new XMLHttpRequest();
 			var fmainfile= '<%=fname%>';
-			alert("fname");
-			alert(fmainfile);
+			//alert("fname");
+			//alert(fmainfile);
 			mainfile = "matrixFile/" + String(fmainfile);
 			matrix_xhr.open("get", mainfile, true);
 			matrix_xhr.onreadystatechange = function() {
@@ -248,7 +248,7 @@
 					if (matrix_xhr.status == 200) {
 						matrix_process();
 					} else {
-						alert("요청 실패: " + matrix_xhr.status);
+						//alert("요청 실패: " + matrix_xhr.status);
 					}
 				}
 			}
@@ -258,7 +258,7 @@
 				matrix_rowData = matrix_datas.split(String.fromCharCode(13)); // 행은 cr로 구분
 				/* 	document.write(obj_rowData);
 					
-					alert(obj_rowData.length); */
+					//alert(obj_rowData.length); */
 				// (String.fromCharCode(13))
 				matrix_array = new Array();
 				str = "";
@@ -295,7 +295,7 @@
 			}
 			
 			function lhaddPlaneToSceneSOAnswer(mesh2){
-				alert("왔다");
+				//alert("왔다");
 				var frontMaterial = new THREE.MeshLambertMaterial({
 					color : 0xffffff,
 					side : THREE.FrontSide
@@ -405,11 +405,11 @@
 				faceIdx1 = -1;
 				var baseColor = new THREE.Color("white");
 				var selectionColor = new THREE.Color("yellow");
-				//alert(window.innerHeight);
-				//alert(window.innerwidth);
+				////alert(window.innerHeight);
+				////alert(window.innerwidth);
 				window.addEventListener("mousemove",function(event) {
-									mouse.x = ((event.clientX - 550) / (window.innerWidth/2.3 -100)) * 2 - 1;
-									mouse.y = -((event.clientY - 55) / (window.innerHeight/2.3)) * 2 + 1;
+									mouse.x = ((event.clientX - 548) / (window.innerWidth/2.3 -100)) * 2 - 1;
+									mouse.y = -((event.clientY - 103) / (window.innerHeight/2.3)) * 2 + 1;
 								}, false); //8은 margin, 30,50은 뷰어 사이즈
 				window.addEventListener("dblclick",function(event) {
 									raycaster.setFromCamera(mouse, camera);
@@ -439,15 +439,15 @@
 														col_map[i][2] = jetcolor_array[cc-1][2];
 																																
 											} 			 
-											alert(col_map);
+											//alert(col_map);
 											/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ lh_c 매칭 와 컬러와 묶음■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 											var lhc_color = [];
 											var lhc_array_len = lhc_array.length;
 											for (var i = 0; i < lhc_array_len; i++) {
 												lhc_color[i] = [lhc_array[i][4], col_map[i][0], col_map[i][1], col_map[i][2] ];
 											}
-											alert("random_array");
-											alert(lhc_color);
+											//alert("random_array");
+											//alert(lhc_color);
 											/* ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ label 매칭 => indexcolor테이블 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
 											var lhlabel_array_len = lhlabel_array.length;
 											final_vertices = [];

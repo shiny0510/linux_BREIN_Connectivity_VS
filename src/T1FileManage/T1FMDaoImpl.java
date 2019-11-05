@@ -17,7 +17,7 @@ public class T1FMDaoImpl implements T1FMDao {
 	@Override
 	public void insert(T1FM t) {
 		Connection conn = db.getConnection();
-		String sql = "insert into T1FileManager(id,t1name,t1path) values(?,lower(?),?)";
+		String sql = "insert into T1FileManager(id,t1name,t1path) values(?,substr(?,1,4),?)";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -28,7 +28,7 @@ public class T1FMDaoImpl implements T1FMDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {// ÇöÀç ¸Þ¼­µå°¡ Á¾·áÇÏ±â Àü¿¡ ²À ½ÇÇàÇØ¾ßÇÏ´Â ÄÚµå ÀÛ¼º
+		} finally {// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½ ï¿½Û¼ï¿½
 			db.disConn();
 		}
 	}
@@ -51,7 +51,7 @@ public class T1FMDaoImpl implements T1FMDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {// ÇöÀç ¸Þ¼­µå°¡ Á¾·áÇÏ±â Àü¿¡ ²À ½ÇÇàÇØ¾ßÇÏ´Â ÄÚµå ÀÛ¼º
+		} finally {// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½ ï¿½Û¼ï¿½
 			db.disConn();
 		}
 		return null;
@@ -76,7 +76,7 @@ public class T1FMDaoImpl implements T1FMDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {// ÇöÀç ¸Þ¼­µå°¡ Á¾·áÇÏ±â Àü¿¡ ²À ½ÇÇàÇØ¾ßÇÏ´Â ÄÚµå ÀÛ¼º
+		} finally {// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½ ï¿½Û¼ï¿½
 			db.disConn();
 		}
 		return null;
@@ -96,7 +96,7 @@ public class T1FMDaoImpl implements T1FMDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {// ÇöÀç ¸Þ¼­µå°¡ Á¾·áÇÏ±â Àü¿¡ ²À ½ÇÇàÇØ¾ßÇÏ´Â ÄÚµå ÀÛ¼º
+		} finally {// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½ ï¿½Û¼ï¿½
 			db.disConn();
 		}
 	}
@@ -114,7 +114,7 @@ public class T1FMDaoImpl implements T1FMDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {// ÇöÀç ¸Þ¼­µå°¡ Á¾·áÇÏ±â Àü¿¡ ²À ½ÇÇàÇØ¾ßÇÏ´Â ÄÚµå ÀÛ¼º
+		} finally {// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½ ï¿½Û¼ï¿½
 			db.disConn();
 		}
 	}
@@ -235,7 +235,7 @@ public class T1FMDaoImpl implements T1FMDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {// ÇöÀç ¸Þ¼­µå°¡ Á¾·áÇÏ±â Àü¿¡ ²À ½ÇÇàÇØ¾ßÇÏ´Â ÄÚµå ÀÛ¼º
+		} finally {// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½ ï¿½Û¼ï¿½
 			db.disConn();
 		}
 		return list;

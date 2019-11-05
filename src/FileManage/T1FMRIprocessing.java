@@ -16,23 +16,23 @@ public class T1FMRIprocessing {
 
 		for (int i = 0; i < listsArray.length; i++) {
 			String listsArrayresult = listsArray[i].substring(0, listsArray[i].length() - 7);
-			String path = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload/" + listsArrayresult; // Æú´õ
-			String beforeFilePath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
+			String path = "/home/osh0510/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/saf/ClientUpload" + listsArrayresult; // ï¿½ï¿½ï¿½ï¿½
+			String beforeFilePath = "/home/osh0510/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/saf/ClientUpload";
 			File Folder = new File(path);
 
 			if (!Folder.exists()) {
 				try {
-					Folder.mkdir(); // Æú´õ »ý¼ºÇÕ´Ï´Ù.
-					System.out.println("Æú´õ°¡ »ý¼ºµÇ¾ú½À´Ï´Ù.");
+					Folder.mkdir(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+					System.out.println("í´ë”ê°€ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤.");
 				} catch (Exception e) {
 					e.getStackTrace();
 				}
 			} else {
-				System.out.println("ÀÌ¹Ì Æú´õ°¡ »ý¼ºµÇ¾î ÀÖ½À´Ï´Ù.");
+				System.out.println("ì´ë¯¸ í´ë”ê°€ ìƒì„±ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.");
 			}
 			T1FMRIprocessing T1FMRIprocessing = new T1FMRIprocessing();
 
-			System.out.println("Æä½º°Ë»ç");
+			System.out.println("íŽ˜ìŠ¤ê²€ì‚¬");
 			System.out.println(listsArray[i]);
 			System.out.println(beforeFilePath);
 			System.out.println(path);

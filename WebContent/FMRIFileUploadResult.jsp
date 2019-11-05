@@ -2,14 +2,12 @@
 <%@page import="java.util.Enumeration"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
-
 <%@page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <%
 
 	// request.getRealPath("상대경로") 를 통해 파일을 저장할 절대 경로를 구해온다.
 	// 운영체제 및 프로젝트가 위치할 환경에 따라 경로가 다르기 때문에 아래처럼 구해오는게 좋음
-	
-	String uploadPath = "/home/osh0510/Downloads/Uploadimages";
+	String uploadPath =  "/home/osh0510/Downloads/Uploadimages";
 	System.out.println("path:"+uploadPath + "<br/>"); 
 	
 	int maxSize = 1024 * 1024 * 10000; // 한번에 올릴 수 있는 파일 용량 : 10M로 제한
@@ -72,10 +70,13 @@
 
 <body>
 	<script>
-
+	
+	
 	var fname = '<%=lists%>';
 	var ftype = '<%=fileType%>';
-    var url = 'http://brein.korea.ac.kr/brainorigin/saf/T1FileDatabaseAddController?lists='+fname; 
+		
+	
+    var url = 'http://brein.korea.ac.kr/brainorigin/saf/FMRIFileDatabaseAddController?lists='+fname; 
 	window.location.href = url;    
 	</script> 
 	

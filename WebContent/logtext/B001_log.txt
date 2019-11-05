@@ -1,0 +1,67 @@
+Start time: 2019. 11. 03. (일) 21:07:37 KST
+
+Structural Image Preprocessing
+  Initialization
+  Subcortical Extraction
+35709
+  Brain Extraction
+  Spatial Normalization
+    Registration to MNI152 space
+      Initial Guessing using Linear Registration
+      Non-Linear Registration
+    Brain Extraction using Masking
+      Warp of Standard Brain Mask to T1 native space
+      Brain Extraction Using Masking
+  Tissue Segmentation
+        Tissue Segmentation Using FSL-FAST
+            WM Mask: Threshold = 0.9 (for regression)
+            CSF Mask: Threshold = 0.9 (for regression)
+            WM Mask: Threshold = 0.5 (for registration)
+            GM Mask: Threshold = 0.5 (for parcellation)
+  Parcellation
+    Registration of AAL template to T1 native space
+    Generate aseg image
+Standard Functional Image Correction
+  Initialization
+    Realignment to have Standard Orientation
+    Checking Configuration File.
+  First 5 volumes were discarded for magnetization stabilization
+    Total volume = 190
+    Corrected volume = 185
+    Reference volume = 92
+  Slice Timing Correction
+    Slice order = --odd
+    TR = 3.000000 
+  Brain Extraction
+    916.676453  91.6676453000
+Registration to Sructural Image
+  Initial Guessing for BBR
+  BBR
+Functional Image Preprocessing
+  Initialization
+    610.757812 
+  Spatial Smoothing
+    FWHM: 6 mm
+        458.06835900 2.5477707006
+  Grand Mean Scaling
+    610.757812  16.3731020766
+  Temporal Filtering
+    CutOff: 120 sec
+    CutOff: 21.00000 TR
+  Regression of Nuisance Regressors
+    Make Nuisance Regressors
+      WM + CSF signals
+      Global signal
+      24 motion parameters
+      Simple Drift Model
+    Regression of Nuisance Factors
+      WMCSF + drift
+  Finalization
+Network Construction
+  Parcellation in Functional Space
+    Inverse Registration: T1 to fMRI
+    Parcellation in Functional Space
+  Extract Mean Time-series Signals
+  rsFC Construction
+
+Elapsed time: 4540 seconds

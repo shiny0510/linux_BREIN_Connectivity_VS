@@ -1,7 +1,6 @@
 package FileManageController;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,22 +42,22 @@ public class T1FileDatabaseAddController extends HttpServlet {
 				
 				HttpSession session = request.getSession();
 				
-				String reid = (String)session.getAttribute("id");
-				String repwd = (String)session.getAttribute("pwd");
+				String reid = "osh";
+				String repwd = "1111";
+//				String reid	= request.getParameter("id");
+	//			String repwd = request.getParameter("pwd");
 				
-				System.out.println("Á¡°Ë");
-
 				
-				System.out.println("¼­ºí¸´ ÆÐ½º" + request.getSession().getServletContext().getRealPath("/"));
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ð½ï¿½" + request.getSession().getServletContext().getRealPath("/"));
 				
 				String t1name = request.getParameter("lists");	
 				
-				T1FMRIprocessing T1FMRIprocessing = new T1FMRIprocessing();
+				//T1FMRIprocessing T1FMRIprocessing = new T1FMRIprocessing();
 				
 				
-				T1FMRIprocessing.T1Processing(t1name);
+				//T1FMRIprocessing.T1Processing(t1name);
 				
-				
+				System.out.println("t1name");
 				System.out.println(t1name);
 				
 				
@@ -71,18 +70,19 @@ public class T1FileDatabaseAddController extends HttpServlet {
 				
 				String filepath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
 
-				String id = (String) session.getAttribute("id");
-				System.out.println("ÆÄÀÏ³×ÀÓ");
+				//String id = (String) session.getAttribute("id");
+				String id = "osh";
+				System.out.println("ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½");
 				System.out.println(id);
 				System.out.println(t1name);
 				System.out.println(filepath);
-				System.out.println("ÆÄÀÏ³×ÀÓ2");
+				System.out.println("ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½2");
 				
 				T1FMService service = new T1FMServiceImpl(new T1FMDaoImpl());
 				
 				/* String id = request.getParameter("id"); */
 				
-				/* int type = Integer.parseInt(request.getParameter("type")); */ //º¸·ù
+				/* int type = Integer.parseInt(request.getParameter("type")); */ //ï¿½ï¿½ï¿½ï¿½
 					
 				
 				T1FM t = new T1FM(0,id,listsArray[i], filepath,null);
@@ -90,17 +90,19 @@ public class T1FileDatabaseAddController extends HttpServlet {
 				}
 				
 				
-				String view = "/LoginMemberController?id=reid & pwd=repwd";
-				RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-				if (dispatcher != null) {
-					dispatcher.forward(request, response);
-				}
+				String view = "/LoginMemberController?passtype=1&id="+reid+"&pwd="+repwd;
+				
+			
+				RequestDispatcher dispatcher = request.getRequestDispatcher(view); 
+				if(dispatcher != null) { dispatcher.forward(request, response); }
+			 
 				}catch(Exception e){
 					String view = "/LoginMemberController?passtype=1";
-					RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-					if (dispatcher != null) {
-						dispatcher.forward(request, response);
-					}
+					response.sendRedirect(view); 
+			/*
+			 * RequestDispatcher dispatcher = request.getRequestDispatcher(view); if
+			 * (dispatcher != null) { dispatcher.forward(request, response); }
+			 */
 				}	}
 
 	/**

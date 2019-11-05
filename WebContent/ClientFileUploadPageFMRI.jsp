@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-    
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="EUC-KR"%>
+<%@page import="java.io.File"%>
+ <script src="jquery/jquery-3.4.1.min.js"></script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="icon.css" />
 <!DOCTYPE HTML>
 <html>
 <head>
 <meta charset=EUC-KR">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <title>파일 업로드</title>
 <style>
 .ubutton label {
@@ -24,12 +26,12 @@
 	-webkit-border-radius: .5em;
 	-moz-border-radius: .5em;
 	border-radius: .5em;
-	-moz-box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/  			
-		rgba(0, 0, 0, .3) /*{global-box-shadow-color}*/;
-	-webkit-box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/  		
-		rgba(0, 0, 0, .3) /*{global-box-shadow-color}*/;
-	box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/  				
-		rgba(0, 0, 0, .3) /*{global-box-shadow-color}*/;
+	-moz-box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/   			
+		 rgba(0, 0, 0, .3) /*{global-box-shadow-color}*/;
+	-webkit-box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/   		
+		 rgba(0, 0, 0, .3) /*{global-box-shadow-color}*/;
+	box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/   				
+		 rgba(0, 0, 0, .3) /*{global-box-shadow-color}*/;
 	border: 1px solid #ccc /*{d-bup-border}*/;
 	background: #fff /*{d-bup-background-color}*/;
 	font-weight: bold;
@@ -69,31 +71,63 @@
 	font: 1em/100% Arial, Helvetica, sans-serif;
 }
 </style>
+<script>
+$(document).ready( function() {
+    $("input[type=file]").change(function () {
+         
+        var fileInput = document.getElementById("uploadfile");
+         
+        var files = fileInput.files;
+        var file;
+        var bowl ="";
+        var fileslist = "";
+        for (var i = 0; i < files.length; i++) {           
+            file = files[i];
+  			var str = file.name;
+  			str = String(str);
+  			var bowl = bowl + str + "\n";
+  			var fileslist = fileslist + str+"!"; 
+        }
+    
+        jQuery('#files').val(bowl);
+        jQuery('#filesList').val(fileslist);
+    });
+    
+});
+</script>
 </head>
 <body>
-<script>
+	<script>
+
+
 var fileValue = $("#file1").val().split("\\");
 var fileName = fileValue[fileValue.length-1];
-alert(fileName);
+
 </script>
-<table style='width:100%; height:80px; '>
-		<tr style='background-color: #eaf8ff; '>
-			<td class='title1'>
-				<a> FMRI File Upload </a>
-			</td>
+	<table style='width: 100%; height: 80px;'>
+		<tr style='background-color: #eaf8ff;'>
+			<td class='title1'><a> FMRI File Upload </a></td>
 		</tr>
 	</table>
-<form action="FileUploadResult.jsp" method="post" enctype="multipart/form-data">
+	<form action="http://brein.korea.ac.kr/brainorigin/saf/FMRIFileUploadResult.jsp?" method="post" enctype="multipart/form-data">
 		<table>
+		<tr>
 			<td><div class="ubutton">
-					<label for="uploadfile">업로드</label><input multiple="multiple" type="file" id="uploadfile" name="file1">
-				</div>
-			</td>
-				<td colspan="2"><input class="button white" type="submit" value="제출"  onclick="location.href = 'ClientFileUploadPage.jsp'"></td>
-			</tr>
-		</table>
+				<label for="uploadfile">업로드</label><input multiple="multiple" type="file" id="uploadfile" name="file1">
+				<!-- <label for="uploadfile">업로드</label><input type="file" id="uploadfile" multiple> -->
+				</div></td>
+			<td colspan="2"><input class="button white" type="submit" value="제출" onclick="location.href='http://brein.korea.ac.kr/brainorigin/saf/ClientFileUploadPage.jsp'"></td>
+			<td><textarea  style="display:none;" id="filesList" name="flists"></textarea></td>
 			
-		</form>
-	<imput type="button" value="FMRI 업로드" onclick="location.href = ''">
+			</tr>			
+		</table>
+	</form>
+	
+	<table>
+	<tr><h3>■ 업로드 결과</h3></tr>
+	<tr>	
+	<td><textarea  wrap="hard" spellcheck = "false" name='textbox2' style='height:700px; width:1000px;' id="files" ></textarea></td>
+	</tr>
+	</table>
 </body>
 </html>

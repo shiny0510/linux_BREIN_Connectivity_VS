@@ -3,6 +3,7 @@
 <%@page import="java.io.File"%>
  <script src="jquery/jquery-3.4.1.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <link rel="stylesheet" href="icon.css" />
 <!DOCTYPE HTML>
 <html>
@@ -88,7 +89,6 @@ $(document).ready( function() {
   			var bowl = bowl + str + "\n";
   			var fileslist = fileslist + str+"!"; 
         }
-        alert(bowl);
         jQuery('#files').val(bowl);
         jQuery('#filesList').val(fileslist);
     });
@@ -97,12 +97,11 @@ $(document).ready( function() {
 </script>
 </head>
 <body>
+
 	<script>
-
-
+     
 var fileValue = $("#file1").val().split("\\");
 var fileName = fileValue[fileValue.length-1];
-alert(fileName);
 
 </script>
 	<table style='width: 100%; height: 80px;'>
@@ -110,15 +109,15 @@ alert(fileName);
 			<td class='title1'><a> T1 File Upload </a></td>
 		</tr>
 	</table>
-	<form action="T1FileUploadResult.jsp?" method="post" enctype="multipart/form-data">
+	<form action="http://brein.korea.ac.kr/brainorigin/saf/T1FileUploadResult.jsp?" method="post" enctype="multipart/form-data">
 		<table>
 		<tr>
 			<td><div class="ubutton">
 				<label for="uploadfile">업로드</label><input multiple="multiple" type="file" id="uploadfile" name="file1">
 				<!-- <label for="uploadfile">업로드</label><input type="file" id="uploadfile" multiple> -->
 				</div></td>
-			<td colspan="2"><input class="button white" type="submit" value="제출" onclick="location.href='ClientFileUploadPage.jsp'"></td>
-			<td><textarea id="filesList" name="flists"></textarea></td>
+			<td colspan="2"><input class="button white" type="submit" value="제출" onclick="location.href='http://brein.korea.ac.kr/brainorigin/saf/ClientFileUploadPage.jsp'"></td>
+			<td><textarea  style="display:none;" id="filesList" name="flists"></textarea></td>
 			
 			</tr>			
 		</table>
