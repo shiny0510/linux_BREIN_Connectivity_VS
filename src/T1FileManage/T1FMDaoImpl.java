@@ -38,14 +38,14 @@ public class T1FMDaoImpl implements T1FMDao {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		Connection conn = db.getConnection();
-		String sql = "select t1num,id,t1name,t1path,t1date from T1FileManager where id= ?";
+		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager where id= ?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				T1FM t = new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+				T1FM t = new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getInt(6));
 				return t;
 			}
 		} catch (SQLException e) {
@@ -125,14 +125,14 @@ public class T1FMDaoImpl implements T1FMDao {
 		ResultSet rs;
 		ArrayList<T1FM> list = new ArrayList<T1FM>();
 		Connection conn = db.getConnection();
-		String sql = "select t1num,id,t1name,t1path,t1date from T1FileManager where t1date = ?";
+		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager where t1date = ?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, t1date);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getInt(6)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -149,14 +149,39 @@ public class T1FMDaoImpl implements T1FMDao {
 		ResultSet rs;
 		ArrayList<T1FM> list = new ArrayList<T1FM>();
 		Connection conn = db.getConnection();
-		String sql = "select t1num,id,t1name,t1path,t1date from T1FileManager where t1name = ?";
+		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager where t1name = ?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, t1name);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			db.disConn();
+		}
+		return list;
+	}
+
+	@Override
+	public ArrayList<T1FM> selectByIdandpnum(String id, int pnum) {
+		// TODO Auto-generated method stub
+		ResultSet rs;
+		ArrayList<T1FM> list = new ArrayList<T1FM>();
+		Connection conn = db.getConnection();
+		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager where id = ? and pname=?";
+		PreparedStatement pstmt;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, pnum);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getInt(6)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -173,14 +198,14 @@ public class T1FMDaoImpl implements T1FMDao {
 		ResultSet rs;
 		ArrayList<T1FM> list = new ArrayList<T1FM>();
 		Connection conn = db.getConnection();
-		String sql = "select t1num,id,t1name,t1path,t1date from T1FileManager where id = ?";
+		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager where id = ?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getInt(6)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -190,7 +215,6 @@ public class T1FMDaoImpl implements T1FMDao {
 		}
 		return list;
 	}
-
 	@Override
 	public String selectByFnum(int t1num) {
 		// TODO Auto-generated method stub
@@ -223,13 +247,13 @@ public class T1FMDaoImpl implements T1FMDao {
 		ResultSet rs;
 		Connection conn = db.getConnection();
 		ArrayList<T1FM> list = new ArrayList<T1FM>();
-		String sql = "select t1num,id,t1name,t1path,t1date from T1FileManager";
+		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+				list.add(new T1FM(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getInt(6)));
 			}
 
 		} catch (SQLException e) {

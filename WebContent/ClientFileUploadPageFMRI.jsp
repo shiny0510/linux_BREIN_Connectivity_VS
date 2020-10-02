@@ -76,7 +76,6 @@ $(document).ready( function() {
     $("input[type=file]").change(function () {
          
         var fileInput = document.getElementById("uploadfile");
-         
         var files = fileInput.files;
         var file;
         var bowl ="";

@@ -41,9 +41,9 @@ public class T1FMServiceImpl implements T1FMService {
 	}
 
 	@Override
-	public ArrayList<T1FM> getById(String id) {
+	public ArrayList<T1FM> getById(String id, int pnum) {
 		// TODO Auto-generated method stub
-		return dao.selectById(id);
+		return dao.selectByIdandpnum(id,pnum);
 	}
 
 	@Override

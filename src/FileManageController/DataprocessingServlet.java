@@ -42,10 +42,11 @@ public class DataprocessingServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String reid = request.getParameter("process");
 		System.out.println(reid);
-	
+	    
 		Dataprocessing ProcessStart = new Dataprocessing();
 		
 		ProcessStart.linuxstart(reid);
+		
 		String view = "/LoginMemberController?id=reid & pwd=repwd";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		if (dispatcher != null) {

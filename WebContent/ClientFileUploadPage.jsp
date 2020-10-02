@@ -212,8 +212,10 @@ var fileName = fileValue[fileValue.length - 1];
 		<tr>
 			<td><label onclick="location.href = 'ClientFileUploadPageT1.jsp'">T1 업로드</label></td>
 			<td><label onclick="location.href = 'ClientFileUploadPageFMRI.jsp'">FMRI 업로드</label></td>
+			<td><label onclick="location.href = 'ClientFileUploadPageDTI.jsp'">DTI 업로드</label></td>
 			<td>
-			<form style="margin:0 auto" action="http://brein.korea.ac.kr/brainorigin/saf/DataprocessingServlet" method="post">
+			<!-- <form style="margin:0 auto" action="http://brein.korea.ac.kr/brainorigin/saf/DataprocessingServlet" method="post"> -->
+			<form style="margin:0 auto" action="${pageContext.request.contextPath }/DataprocessingServlet" method="post">
 				<button>전처리</button> 
 				<textarea style="display:none;" id="process" name="process"></textarea>
 			</form>
@@ -236,7 +238,9 @@ var fileName = fileValue[fileValue.length - 1];
 		</tr>
 	</table>
 	<h3>■Upload Connectivity</h3>
-	<form action="http://brein.korea.ac.kr/brainorigin/saf/FileUploadResult.jsp" method="post" enctype="multipart/form-data">
+	<!-- <form action="http://brein.korea.ac.kr/brainorigin/saf/FileUploadResult.jsp" method="post" enctype="multipart/form-data">-->	
+		<form action="${pageContext.request.contextPath }/saf/FileUploadResult.jsp" method="post" enctype="multipart/form-data">
+	
 		<table>
 			<tr>
 			<td><div class="ubutton">
@@ -246,7 +250,8 @@ var fileName = fileValue[fileValue.length - 1];
 			<!-- <input class="button white" type="reset"value="새로고침"></td> -->
 			</tr>
 		</table>
-		<form action="http://brein.korea.ac.kr/brainorigin/saf/ViewerController" method="post">
+		<!-- <form action="http://brein.korea.ac.kr/brainorigin/saf/ViewerController" method="post"> -->
+		<form action="${pageContext.request.contextPath }/saf/ViewerController" method="post">
 			<table style="width: 53%">
 				<tr style="height: 30px; width: 100px; background-color: #86c5e3;">
 					<th>파일번호</th>
@@ -262,7 +267,8 @@ var fileName = fileValue[fileValue.length - 1];
 						<tr style="text-align: center">
 							<td>${list.fnum}</td>
 							<td id="id">${list.id}</td>
-							<td><a href=http://brein.korea.ac.kr/brainorigin/saf/ViewerController?fnum=${list.fnum } id="fname">${list.fname }</a></td>
+							<%-- <td><a href=http://brein.korea.ac.kr/brainorigin/saf/ViewerController?fnum=${list.fnum } id="fname">${list.fname }</a></td> --%>
+							<td><a href="${pageContext.request.contextPath }/saf/ViewerController?fnum=${list.fnum } id="fname">${list.fname }</a></td>				
 							<td id="fdate">${list.fdate }</td>
 							<td id="listfnameNull">${listfnameNull[status.index].fileNull}</td>
 						</tr>

@@ -18,13 +18,14 @@ public class FMDaoImpl implements FMDao {
 	@Override
 	public void insert(FileManager f) {
 		Connection conn = db.getConnection();
-		String sql = "insert into FileManager(id,fname,fpath) values(?,?,?)";
+		String sql = "insert into FileManager(id,fname,fpath,pnum) values(?,?,?,?)";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, f.getId());
 			pstmt.setString(2, f.getFname());
 			pstmt.setString(3, f.getFpath());
+			pstmt.setInt(3, f.getPnum());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -39,14 +40,14 @@ public class FMDaoImpl implements FMDao {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		Connection conn = db.getConnection();
-		String sql = "select fnum,id,fname,fpath,fdate from FileManager where id= ?";
+		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager where id= ?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id); 
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				FileManager f = new FileManager(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+				FileManager f = new FileManager(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getInt(6));
 				return f;
 				
 			}
@@ -64,7 +65,7 @@ public class FMDaoImpl implements FMDao {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		Connection conn = db.getConnection();
-		String sql = "select fnum,id,fname,fpath,fdate from FileManager where fname=? ";
+		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager where fname=? ";
 		String id="";
 		PreparedStatement pstmt;
 		try {
@@ -127,13 +128,13 @@ public class FMDaoImpl implements FMDao {
 		ResultSet rs;
 		Connection conn = db.getConnection();
 		ArrayList<FileManager> list=new ArrayList<FileManager>();
-		String sql = "select fnum,id,fname,fpath,fdate from FileManager";
+		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				 list.add(new FileManager(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5)));
+				 list.add(new FileManager(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5),rs.getInt(6)));
 			}
 			
 		} catch (SQLException e) {
@@ -151,14 +152,14 @@ public class FMDaoImpl implements FMDao {
 		ResultSet rs;
 		ArrayList<FileManager> list = new ArrayList<FileManager>();
 		Connection conn = db.getConnection();
-		String sql = "select fnum,id,fname,fpath,fdate from FileManager where fdate = ?";
+		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager where fdate = ?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fdate);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new FileManager(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4), rs.getString(5)));
+				list.add(new FileManager(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4), rs.getString(5),rs.getInt(6)));
 					}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -175,14 +176,14 @@ public class FMDaoImpl implements FMDao {
 		ResultSet rs;
 		ArrayList<FileManager> list = new ArrayList<FileManager>();
 		Connection conn = db.getConnection();
-		String sql = "select fnum,id,fname,fpath,fdate from FileManager where fname = ?";
+		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager where fname = ?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fname);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new FileManager(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4), rs.getString(5)));
+				list.add(new FileManager(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4), rs.getString(5),rs.getInt(6)));
 					}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -194,19 +195,20 @@ public class FMDaoImpl implements FMDao {
 	}
 
 	@Override
-	public ArrayList<FileManager> selectById(String id) {
+	public ArrayList<FileManager> selectById(String id, int pnum) {
 		// TODO Auto-generated method stub
 		ResultSet rs;
 		ArrayList<FileManager> list = new ArrayList<FileManager>();
 		Connection conn = db.getConnection();
-		String sql = "select fnum,id,fname,fpath,fdate from FileManager where id = ?";
+		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager where id = ? and pname =?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
+			pstmt.setInt(2, pnum);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				list.add(new FileManager(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4), rs.getString(5)));
+				list.add(new FileManager(rs.getInt(1), rs.getString(2),rs.getString(3),rs.getString(4), rs.getString(5),rs.getInt(6)));
 					}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

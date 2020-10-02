@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +26,10 @@ import T1FileManage.T1FM;
 import T1FileManage.T1FMDaoImpl;
 import T1FileManage.T1FMService;
 import T1FileManage.T1FMServiceImpl;
+import projectlist.projectDaoImpl;
+import projectlist.projectlist;
+import projectlist.projectlistService;
+import projectlist.projectlistServiceImpl;
 
 /**
  * Servlet implementation class LoginMemberController
@@ -50,74 +55,45 @@ public class LoginMemberController extends HttpServlet {
 		response.setContentType("text/html; charset=EUC-KR");
 		response.setCharacterEncoding("euc-kr");
 		
-		HttpSession session = request.getSession();
-		
-		/* �α��� ó�� */
+		/* login processing */
 		MemberService service = new MemberServiceImpl(new MemberDaoImpl());		
 		
 		String passtype = request.getParameter("passtype");
 		
-		System.out.println(passtype);
+		String id = request.getParameter("aid");
+		String pwd = request.getParameter("apwd");
+		String pname = request.getParameter("pname");
+		String pnum1 = request.getParameter("pnum");
+		int pnum= Integer.parseInt(pnum1);
 		
-		String id = null;
-		String pwd = null;
-		
-		if(passtype.equals("0")) {
-		id	= request.getParameter("id");
-		pwd	= request.getParameter("pwd");
-		session.setAttribute("id", id);
-		session.setAttribute("pwd", pwd);
+		System.out.println("dad");
 		System.out.println(id);
 		System.out.println(pwd);
-		
-		String sid=(String)session.getAttribute("id");
-		String spwd=(String)session.getAttribute("pwd");
-		System.out.println(sid);
-		System.out.println(spwd);
-		}
-		
-		if(passtype.equals("1")) {			
-			//id = (String) session.getAttribute("id"); 
-			//pwd = (String) session.getAttribute("pwd");
-			id = "osh";
-			pwd = "1111";
-			
-			System.out.println("passtype");
-			System.out.println(id);
-			System.out.println(pwd);
-		}
+		System.out.println(pname);
+		System.out.println(pnum1);
 		
 		boolean flag = service.login(id,pwd);				
 		
-		
-		System.out.println(flag);
-		
 		String view = "";
 		if (flag) {
-		
-			//DB���� ����Ʈ �������� 
+			
+			//DB file list get
 			FMService FMservice = new FMServiceImpl(new FMDaoImpl());
-			ArrayList<FileManager> list = FMservice.getById(id);
-
+			ArrayList<FileManager> list = FMservice.getById(id,pnum);
 			request.setAttribute("list", list);
 
-			ArrayList<FileManager> list2 = FMservice.getById(id);
-
+			ArrayList<FileManager> list2 = FMservice.getById(id,pnum);
 			ArrayList<FileNull> fnameNull = new ArrayList();
-			System.out.println(list.size());
 			
-			//DBT1���� ����Ʈ �������� 
+			//DBT1file list get
 			T1FMService T1FMService =new T1FMServiceImpl(new T1FMDaoImpl());
-			ArrayList<T1FM> T1list = T1FMService.getById(id);
+			ArrayList<T1FM> T1list = T1FMService.getById(id,pnum);
 
 			request.setAttribute("T1list", T1list);
 
-			ArrayList<T1FM> T1list2 = T1FMService.getById(id);
-
-			
-			
+			ArrayList<T1FM> T1list2 = T1FMService.getById(id,pnum);		
 						
-			//��������
+			//file exist? - upload connectivity
 			for (int i = 0; i < list.size(); i++) {
 
 				FileManager list3 = list2.get(i);
@@ -125,27 +101,27 @@ public class LoginMemberController extends HttpServlet {
 				String file = "matrixFile/" + list3.getFname();
 
 				InputStream istream = getServletContext().getResourceAsStream(file);
+				
 				if (istream == null) {
-					fnameNull.add(new FileNull("처리 중"));
+					fnameNull.add(new FileNull("preprosseing Yet"));
 				} else {
-					fnameNull.add(new FileNull("처리완료"));
+					fnameNull.add(new FileNull("preprosseing success"));
 				}
 			}
 			request.setAttribute("listfnameNull", fnameNull);
-			
-			System.out.println(fnameNull);
 
 			member m = service.getMember(id);
 		
 			/* session.setAttribute("type", m.getType()); */
-			view = "/ClientFileUploadPage.jsp?id="+id+"pwd="+pwd; 
+			view = "/ClientFileUploadPage.jsp"; 
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			
 			  if (dispatcher != null) { dispatcher.forward(request, response); }
 			 
 		} else {
-			System.out.print("�̵�");
-			view = "http://brein.korea.ac.kr/brainorigin/saf/LoginPage/Login.jsp";
+			//view = "http://brein.korea.ac.kr/brainorigin/saf/LoginPage/Login.jsp";
+			view = "LoginPage/Login.jsp";
 			response.sendRedirect(view); 
 			}	 
 		}

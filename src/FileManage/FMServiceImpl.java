@@ -39,9 +39,9 @@ public class FMServiceImpl implements FMService {
 	}
 
 	@Override
-	public ArrayList<FileManager> getById(String id) {
+	public ArrayList<FileManager> getById(String id, int pnum) {
 		// TODO Auto-generated method stub
-		return dao.selectById(id);
+		return dao.selectById(id,pnum);
 	}
 	
 	@Override

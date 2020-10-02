@@ -15,6 +15,7 @@ public interface T1FMDao {
 	ArrayList<T1FM> selectByDate(String t1date);
 	ArrayList<T1FM> selectByFname(String t1name);
 	ArrayList<T1FM> selectById(String id);
+	ArrayList<T1FM> selectByIdandpnum(String id, int pnum);
 	String selectByFnum(int t1num);
 	
 	ArrayList<T1FM> selectAll();

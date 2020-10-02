@@ -13,7 +13,7 @@ public interface T1FMService {
 
 	ArrayList<T1FM> getByt1name(String t1name); //파일 이름으로 파일 찾기 (리스트)
 
-	ArrayList<T1FM> getById(String id); // 아이디로 파일 찾기(리스트)
+	ArrayList<T1FM> getById(String id, int pnum); // 아이디로 파일 찾기(리스트)
 
 	String getByt1num(int t1num); // 넘버 파일 찾기(리스트)
 	

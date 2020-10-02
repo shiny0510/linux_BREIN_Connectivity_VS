@@ -14,7 +14,7 @@ public interface FMDao {
 	void delete(int fnum); //파일 딜리트
 	ArrayList<FileManager> selectByDate(String fdate);
 	ArrayList<FileManager> selectByFname(String fname);
-	ArrayList<FileManager> selectById(String id);
+	ArrayList<FileManager> selectById(String id, int pnum);
 	String selectByFnum(int fnum);
 	
 	ArrayList<FileManager> selectAll();

@@ -13,7 +13,7 @@ public interface FMService {
 
 	ArrayList<FileManager> getByFname(String fname); //파일 이름으로 파일 찾기 (리스트)
 
-	ArrayList<FileManager> getById(String id); // 아이디로 파일 찾기(리스트)
+	ArrayList<FileManager> getById(String id, int pnum); // 아이디로 파일 찾기(리스트)
 
 	String getBynum(int fnum); // 넘버 파일 찾기(리스트)
 	

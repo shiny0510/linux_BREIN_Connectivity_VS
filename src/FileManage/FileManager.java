@@ -6,19 +6,20 @@ public class FileManager {
 	private String fname;
 	private String fpath;
 	private String fdate;
-	
+	private int pnum;
 	
 	public FileManager() {
 		
 	}
-	
-	public FileManager(int fnum, String id, String fname, String fpath, String fdate) {
+
+	public FileManager(int fnum, String id, String fname, String fpath, String fdate, int pnum) {
 		super();
 		this.fnum = fnum;
 		this.id = id;
 		this.fname = fname;
 		this.fpath = fpath;
 		this.fdate = fdate;
+		this.pnum = pnum;
 	}
 
 	public int getFnum() {
@@ -61,11 +62,19 @@ public class FileManager {
 		this.fdate = fdate;
 	}
 
+	public int getPnum() {
+		return pnum;
+	}
+
+	public void setPnum(int pnum) {
+		this.pnum = pnum;
+	}
+
 	@Override
 	public String toString() {
 		return "FileManager [fnum=" + fnum + ", id=" + id + ", fname=" + fname + ", fpath=" + fpath + ", fdate=" + fdate
-				+ "]";
+				+ ", pnum=" + pnum + "]";
 	}
-
+	
 }
 

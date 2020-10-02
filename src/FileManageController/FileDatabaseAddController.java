@@ -59,11 +59,6 @@ public class FileDatabaseAddController extends HttpServlet {
 		//String filepath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
 
 		//String id = (String) session.getAttribute("id");
-		System.out.println("���ϳ���");
-
-		System.out.println(filename);
-		System.out.println(filepath);
-		System.out.println("���ϳ���2");
 		
 		FMService service = new FMServiceImpl(new FMDaoImpl());
 		

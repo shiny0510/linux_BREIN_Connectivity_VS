@@ -72,11 +72,6 @@ public class T1FileDatabaseAddController extends HttpServlet {
 
 				//String id = (String) session.getAttribute("id");
 				String id = "osh";
-				System.out.println("���ϳ���");
-				System.out.println(id);
-				System.out.println(t1name);
-				System.out.println(filepath);
-				System.out.println("���ϳ���2");
 				
 				T1FMService service = new T1FMServiceImpl(new T1FMDaoImpl());
 				
