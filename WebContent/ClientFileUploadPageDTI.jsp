@@ -109,7 +109,7 @@ var fileName = fileValue[fileValue.length-1];
 			<td class='title1'><a> DTI File Upload </a></td>
 		</tr>
 	</table>
-	<form action="http://brein.korea.ac.kr/brainorigin/saf/T1FileUploadResult.jsp?" method="post" enctype="multipart/form-data">
+	<form action="http://brein.korea.ac.kr/brainorigin/saf/DTIFileUploadResult.jsp?" method="post" enctype="multipart/form-data">
 		<table>
 		<tr>
 			<td><div class="ubutton">

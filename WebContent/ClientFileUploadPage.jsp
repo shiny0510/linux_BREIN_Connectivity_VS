@@ -5,7 +5,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link rel="stylesheet" href="icon.css" />
-
+<%
+	String id = request.getParameter("id");
+	String pwd = request.getParameter("pwd");
+%>
 
 <!DOCTYPE HTML>
 <html>
