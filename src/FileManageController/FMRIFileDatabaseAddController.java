@@ -1,7 +1,6 @@
 package FileManageController;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,8 +41,11 @@ public class FMRIFileDatabaseAddController extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			
-			String reid = (String)session.getAttribute("id");
-			String repwd = (String)session.getAttribute("pwd");
+			String id	= request.getParameter("id");
+			String pnum	= request.getParameter("pnum");
+			String pname	= request.getParameter("pname");
+			
+			int pnum1 =Integer.parseInt(pnum);
 			
 			String t1name = request.getParameter("lists");	
 			
@@ -54,19 +56,18 @@ public class FMRIFileDatabaseAddController extends HttpServlet {
 				
 			
 			
-			String view = "http://brein.korea.ac.kr/brainorigin/saf/LoginMemberController?passtype=1&id=reid&pwd=repwd";
-			response.sendRedirect(view); 
-			/*
-			 * RequestDispatcher dispatcher = request.getRequestDispatcher(view); if
-			 * (dispatcher != null) { dispatcher.forward(request, response); }
-			 */
+			String view = "/LoginMemberController?passtype=3&aid="+id+"&pname="+pname;
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher(view); 
+			if(dispatcher != null) { dispatcher.forward(request, response); }
+		 
 			}catch(Exception e){
-				String view = "http://brein.korea.ac.kr/brainorigin/saf/LoginMemberController?passtype=1";
+				String view = "/ClientFileUploadPageFMRI.jsp";
 				response.sendRedirect(view); 
-				/*
-			 * RequestDispatcher dispatcher = request.getRequestDispatcher(view); if
-			 * (dispatcher != null) { dispatcher.forward(request, response); }
-			 */
+		/*
+		 * RequestDispatcher dispatcher = request.getRequestDispatcher(view); if
+		 * (dispatcher != null) { dispatcher.forward(request, response); }
+		 */
 			}	}
 
 	/**

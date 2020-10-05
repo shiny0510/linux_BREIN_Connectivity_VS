@@ -43,44 +43,46 @@ public class FileDatabaseAddController extends HttpServlet {
 		response.setContentType("text/html; charset=EUC-KR");
 		response.setCharacterEncoding("euc-kr");
 		
+		
+		
 		HttpSession session = request.getSession();
 		
-		//String reid = (String)session.getAttribute("id");
-		//String repwd = (String)session.getAttribute("pwd");
-		String reid = "osh";
-		String repwd = "1111";
+		String id	= request.getParameter("id");
+		String pnum	= request.getParameter("pnum");
+		String pname	= request.getParameter("pname");
+		
+		int pnum1 =Integer.parseInt(pnum);
 		
 		System.out.println("" + request.getSession().getServletContext().getRealPath("/"));
 		
 		String filename = request.getParameter("lists");	
 		
+		String listsArray[]	=filename.split("!");
+		
+		for(int i =0; i<listsArray.length; i++){
+		
 		String filepath = request.getSession().getServletContext().getRealPath("/") + "ClientUpload";
-		
-		//String filepath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
-
-		//String id = (String) session.getAttribute("id");
-		
+			
 		FMService service = new FMServiceImpl(new FMDaoImpl());
 		
-		/* String id = request.getParameter("id"); */
-		
-		/* int type = Integer.parseInt(request.getParameter("type")); */ //����
-			
-		String id = "osh";
-		
-		FileManager f = new FileManager(0,id,filename,filepath,null);
+		FileManager f = new FileManager(0,id,listsArray[i],filepath,"",pnum1);
 		service.addFile(f);
-		String view = "/LoginMemberController?passtype=1&id="+reid+"&pwd="+repwd;
+		}
+		
+		String view = "/LoginMemberController?passtype=3&aid="+id+"&pname="+pname;
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);
 		}
 		}catch(Exception e){
-			String view = "/LoginMemberController?passtype=1";
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			if (dispatcher != null) {
-				dispatcher.forward(request, response);
-			}
+			String id	= request.getParameter("id");
+			String pnum	= request.getParameter("pnum");
+			String pname	= request.getParameter("pname");
+			
+			int pnum1 =Integer.parseInt(pnum);
+			
+			String view = "/LoginMemberController?passtype=3&aid="+id+"&pname="+pname;
+			response.sendRedirect(view); 
 		}
 	}
 

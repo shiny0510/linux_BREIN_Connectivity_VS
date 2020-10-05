@@ -50,63 +50,63 @@ public class ProjectlistController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	
-		request.setCharacterEncoding("euc-kr");
-		response.setContentType("text/html; charset=EUC-KR");
-		response.setCharacterEncoding("euc-kr");	
-		
-		HttpSession session = request.getSession();
-		
-		ServletContext application = request.getServletContext();
-		/* login processing */
-		MemberService service = new MemberServiceImpl(new MemberDaoImpl());		
-		
-		String passtype = request.getParameter("passtype");
-		
-		String id = null;
-		String pwd = null;
-		
-		if(passtype.equals("0")) {
-		id	= request.getParameter("id");
-		pwd	= request.getParameter("pwd");
-		
-		System.out.println(id);
-		
-		application.setAttribute("id", id);
-		application.setAttribute("pwd", pwd);
-		
-		String sid=(String)application.getAttribute("id");
-		String spwd=(String)application.getAttribute("pwd");
-		
-		}
-		
-		boolean flag = service.login(id,pwd);				
-		
-		String view = "";
-		if (flag) {
-		
-			//Project list get
-			projectlistService projectService =new projectlistServiceImpl(new projectDaoImpl());
-			ArrayList<projectlist> projectlist = projectService.getById(id);
+				response.getWriter().append("Served at: ").append(request.getContextPath());
+			
+				request.setCharacterEncoding("euc-kr");
+				response.setContentType("text/html; charset=EUC-KR");
+				response.setCharacterEncoding("euc-kr");	
+				
+				HttpSession session = request.getSession();
+				
+				ServletContext application = request.getServletContext();
+				/* login processing */
+				MemberService service = new MemberServiceImpl(new MemberDaoImpl());		
+				
+				String passtype = request.getParameter("passtype");
+				
+				String id = null;
+				String pwd = null;
+				
+				if(passtype.equals("0")) {
+				id	= request.getParameter("id");
+				pwd	= request.getParameter("pwd");
+				
+				System.out.println(id);
+				System.out.println(pwd);
+				
+				application.setAttribute("id", id);
+				application.setAttribute("pwd", pwd);
+				
+				String sid=(String)application.getAttribute("id");
+				String spwd=(String)application.getAttribute("pwd");
+				
+				}
+				
+				boolean flag = service.login(id,pwd);				
+				
+				String view = "";
+				if (flag) {
+				
+					//Project list get
+					projectlistService projectService =new projectlistServiceImpl(new projectDaoImpl());
+					ArrayList<projectlist> projectlist = projectService.getById(id);
 
-			request.setAttribute("projectlist", projectlist);
-			
+					request.setAttribute("projectlist", projectlist);
+					
 
-			/* session.setAttribute("type", m.getType()); */
-			view = "/Projectlist.jsp"; 
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-			
-			  if (dispatcher != null) { dispatcher.forward(request, response); }
-			 
-		} else {
-			//view = "http://brein.korea.ac.kr/brainorigin/saf/LoginPage/Login.jsp";
-			view = "LoginPage/Login.jsp";
-			response.sendRedirect(view); 
-			}	 	
+					/* session.setAttribute("type", m.getType()); */
+					view = "/Projectlist.jsp"; 
+					
+					RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+					
+					  if (dispatcher != null) { dispatcher.forward(request, response); }
+					 
+				} else {
+					view = "http://brein.korea.ac.kr/brainorigin/saf/LoginPage/Login.jsp";
+					//view = "LoginPage/Login.jsp";
+					response.sendRedirect(view); 
+					}
 
 	}
 

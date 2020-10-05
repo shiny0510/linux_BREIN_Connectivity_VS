@@ -42,57 +42,37 @@ public class T1FileDatabaseAddController extends HttpServlet {
 				
 				HttpSession session = request.getSession();
 				
-				String reid = "osh";
-				String repwd = "1111";
-//				String reid	= request.getParameter("id");
-	//			String repwd = request.getParameter("pwd");
+				String id	= request.getParameter("id");
+				String pnum	= request.getParameter("pnum");
+				String pname	= request.getParameter("pname");
 				
+				int pnum1 =Integer.parseInt(pnum);
 				
 				System.out.println("���� �н�" + request.getSession().getServletContext().getRealPath("/"));
 				
 				String t1name = request.getParameter("lists");	
 				
-				//T1FMRIprocessing T1FMRIprocessing = new T1FMRIprocessing();
-				
-				
-				//T1FMRIprocessing.T1Processing(t1name);
-				
-				System.out.println("t1name");
-				System.out.println(t1name);
-				
-				
 				String listsArray[]	=t1name.split("!");
-					
+				
 				for(int i =0; i<listsArray.length; i++){
 				
 				System.out.println(listsArray[i]);
-				//String filepath = request.getSession().getServletContext().getRealPath("/") + "ClientUpload";
-				
-				String filepath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
-
-				//String id = (String) session.getAttribute("id");
-				String id = "osh";
-				
-				T1FMService service = new T1FMServiceImpl(new T1FMDaoImpl());
-				
-				/* String id = request.getParameter("id"); */
-				
-				/* int type = Integer.parseInt(request.getParameter("type")); */ //����
 					
+				String filepath = request.getSession().getServletContext().getRealPath("/") + "ClientUpload";
+					
+				T1FMService service = new T1FMServiceImpl(new T1FMDaoImpl());
+				T1FM t = new T1FM(0,id,listsArray[i], filepath, "", pnum1);
 				
-				T1FM t = new T1FM(0,id,listsArray[i], filepath,null);
 				service.addT1File(t);
 				}
 				
-				
-				String view = "/LoginMemberController?passtype=1&id="+reid+"&pwd="+repwd;
-				
+				String view = "/LoginMemberController?passtype=3&aid="+id+"&pname="+pname;
 			
 				RequestDispatcher dispatcher = request.getRequestDispatcher(view); 
 				if(dispatcher != null) { dispatcher.forward(request, response); }
 			 
 				}catch(Exception e){
-					String view = "/LoginMemberController?passtype=1";
+					String view = "/ClientFileUploadPageT1.jsp";
 					response.sendRedirect(view); 
 			/*
 			 * RequestDispatcher dispatcher = request.getRequestDispatcher(view); if

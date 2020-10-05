@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@page import="java.io.File"%>
- <script src="jquery/jquery-3.4.1.min.js"></script>
+<script src="jquery/jquery-3.4.1.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%
+	String id = request.getParameter("aid");
+	String pwd = request.getParameter("apwd");
+	String pname = request.getParameter("apname");
+	String pnum = request.getParameter("pnum");
+%>
 <link rel="stylesheet" href="icon.css" />
 <!DOCTYPE HTML>
 <html>
@@ -73,61 +79,69 @@
 }
 </style>
 <script>
-$(document).ready( function() {
-    $("input[type=file]").change(function () {
-         
-        var fileInput = document.getElementById("uploadfile");
-         
-        var files = fileInput.files;
-        var file;
-        var bowl ="";
-        var fileslist = "";
-        for (var i = 0; i < files.length; i++) {           
-            file = files[i];
-  			var str = file.name;
-  			str = String(str);
-  			var bowl = bowl + str + "\n";
-  			var fileslist = fileslist + str+"!"; 
-        }
-        jQuery('#files').val(bowl);
-        jQuery('#filesList').val(fileslist);
-    });
-    
-});
+	$(document).ready(function() {
+		$("input[type=file]").change(function() {
+
+			var fileInput = document.getElementById("uploadfile");
+
+			var files = fileInput.files;
+			var file;
+			var bowl = "";
+			var fileslist = "";
+			for (var i = 0; i < files.length; i++) {
+				file = files[i];
+				var str = file.name;
+				str = String(str);
+				var bowl = bowl + str + "\n";
+				var fileslist = fileslist + str + "!";
+			}
+			jQuery('#files').val(bowl);
+			jQuery('#filesList').val(fileslist);
+		});
+
+	});
 </script>
 </head>
 <body>
 
 	<script>
-     
-var fileValue = $("#file1").val().split("\\");
-var fileName = fileValue[fileValue.length-1];
-
-</script>
+		var fileValue = $("#file1").val().split("\\");
+		var fileName = fileValue[fileValue.length - 1];
+	</script>
 	<table style='width: 100%; height: 80px;'>
 		<tr style='background-color: #eaf8ff;'>
 			<td class='title1'><a> DTI File Upload </a></td>
 		</tr>
 	</table>
-	<form action="http://brein.korea.ac.kr/brainorigin/saf/DTIFileUploadResult.jsp?" method="post" enctype="multipart/form-data">
+	<form action="http://brein.korea.ac.kr/brainorigin/saf/DTIFileUploadResult.jsp?pname=<%=pname%>&id=<%=id%>&pwd=<%=pwd%>&pnum=<%=pnum%>" method="post" enctype="multipart/form-data">
 		<table>
-		<tr>
-			<td><div class="ubutton">
-				<label for="uploadfile">업로드</label><input multiple="multiple" type="file" id="uploadfile" name="file1">
-				<!-- <label for="uploadfile">업로드</label><input type="file" id="uploadfile" multiple> -->
-				</div></td>
-			<td colspan="2"><input class="button white" type="submit" value="제출" onclick="location.href='http://brein.korea.ac.kr/brainorigin/saf/ClientFileUploadPage.jsp'"></td>
-			<td><textarea  style="display:none;" id="filesList" name="flists"></textarea></td>
-			
-			</tr>			
+			<tr>
+				<td><div class="ubutton">
+						<label for="uploadfile">Open File</label><input
+							multiple="multiple" type="file" id="uploadfile" name="file1">
+						<!-- <label for="uploadfile">업로드</label><input type="file" id="uploadfile" multiple> -->
+					</div></td>
+				<td colspan="2">
+					<button class="button white">Summit</button>
+					<input type="hidden" name="aid" value="<%=id%>" /> 
+					<input type="hidden" name="apwd" value="<%=pwd%>" />
+					<input type="hidden" name="apname" value="<%=pname%>" />
+					<input  type="hidden" name="pnum" value="<%=pnum%>" />
+				<td><textarea style="display: none;" id="filesList" name="flists"></textarea></td>
+
+			</tr>
 		</table>
+		
 	</form>
-	
+
 	<table>
-	<tr><h3>■ 업로드 결과</h3></tr>
-	<tr>	
-	<td><textarea  wrap="hard" spellcheck = "false" name='textbox2' style='height:700px; width:1000px;' id="files" ></textarea></td>
-	</tr>
+		<tr>
+			<h3>■ Upload list</h3>
+		</tr>
+		<tr>
+			<td><textarea wrap="hard" spellcheck="false" name='textbox2'
+					style='height: 700px; width: 1000px;' id="files"></textarea></td>
+		</tr>
 	</table>
 </body>
 </html>

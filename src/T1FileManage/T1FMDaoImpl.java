@@ -17,13 +17,14 @@ public class T1FMDaoImpl implements T1FMDao {
 	@Override
 	public void insert(T1FM t) {
 		Connection conn = db.getConnection();
-		String sql = "insert into T1FileManager(id,t1name,t1path) values(?,substr(?,1,4),?)";
+		String sql = "insert into T1FileManager(id,t1name,t1path,pnum) values(?,substr(?,1,4),?,?)";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, t.getId());
 			pstmt.setString(2, t.getT1name());
 			pstmt.setString(3, t.getT1path());
+			pstmt.setInt(4, t.getPnum());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -173,7 +174,7 @@ public class T1FMDaoImpl implements T1FMDao {
 		ResultSet rs;
 		ArrayList<T1FM> list = new ArrayList<T1FM>();
 		Connection conn = db.getConnection();
-		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager where id = ? and pname=?";
+		String sql = "select t1num,id,t1name,t1path,t1date,pnum from T1FileManager where id = ? and pnum=?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);

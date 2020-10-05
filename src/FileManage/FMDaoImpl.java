@@ -25,7 +25,7 @@ public class FMDaoImpl implements FMDao {
 			pstmt.setString(1, f.getId());
 			pstmt.setString(2, f.getFname());
 			pstmt.setString(3, f.getFpath());
-			pstmt.setInt(3, f.getPnum());
+			pstmt.setInt(4, f.getPnum());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -200,7 +200,7 @@ public class FMDaoImpl implements FMDao {
 		ResultSet rs;
 		ArrayList<FileManager> list = new ArrayList<FileManager>();
 		Connection conn = db.getConnection();
-		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager where id = ? and pname =?";
+		String sql = "select fnum,id,fname,fpath,fdate,pnum from FileManager where id = ? and pnum =?";
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn.prepareStatement(sql);

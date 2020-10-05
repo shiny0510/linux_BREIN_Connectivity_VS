@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
-
-
 <script src="jquery/jquery-3.4.1.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <link rel="stylesheet" href="icon.css" />
 <!DOCTYPE HTML>
 <%
@@ -225,9 +222,10 @@
 	</table>
 	<table>
 		<tr>
-			<td><form class="ubutton" method="post"
-					action='${pageContext.request.contextPath }/LoginMemberController?passtype=0'>
+			<td><form class="ubutton" method="post" action='Project_add.jsp'>
 					<button>Project Create</button>
+					<input type="hidden" name="aid" value="<%=id%>" /> 
+					<input type="hidden" name="apwd" value="<%=pwd%>" />
 				</form></td>
 			<!-- 	<td><form class="ubutton" method="post"
 					onclick="location.href = 'ClientFileUploadPageFMRI.jsp'">
@@ -258,7 +256,7 @@
 								<td>${projectlist.pname}</td>
 								<td id="fdate">${projectlist.pdate }</td>
 								<td style="vertical-align:middle;">
-									<form style="vertical-align:middle;" method="post" action="${pageContext.request.contextPath }/LoginMemberController?pnum=${projectlist.pnum}">
+									<form style="vertical-align:middle;" method="post" action="http://brein.korea.ac.kr/brainorigin/saf/LoginMemberController?passtype=0&pnum=${projectlist.pnum}&pname=${projectlist.pname}">
 										<button style="height:30px;background-color:white;">IN</button>
 										<input type="hidden" name="aid" value="<%=id%>" /> 
 										<input type="hidden" name="apwd" value="<%=pwd%>" />

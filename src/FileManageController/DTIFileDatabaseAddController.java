@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import DTIManager.dtilist;
 import DTIManager.dtilistDaoImpl;
+import DTIManager.dtilistService;
+import DTIManager.dtilistServiceImpl;
 
 /**
  * Servlet implementation class DTIFileDatabaseAddController
@@ -38,11 +40,12 @@ public class DTIFileDatabaseAddController extends HttpServlet {
 			response.setCharacterEncoding("euc-kr");
 			
 			HttpSession session = request.getSession();
+		
+			String id	= request.getParameter("id");
+			String pnum	= request.getParameter("pnum");
+			String pname	= request.getParameter("pname");
 			
-			String reid = "osh";
-			String repwd = "1111";
-//			String reid	= request.getParameter("id");
-//			String repwd = request.getParameter("pwd");
+			int pnum1 =Integer.parseInt(pnum);
 			
 			String dtiname = request.getParameter("lists");	
 			
@@ -52,32 +55,21 @@ public class DTIFileDatabaseAddController extends HttpServlet {
 			
 			System.out.println(listsArray[i]);
 			String filepath = request.getSession().getServletContext().getRealPath("/") + "ClientUpload";
+		
+			dtilistService service = new dtilistServiceImpl(new dtilistDaoImpl());		
 			
-			//String filepath = "C:/Users/Oh Seung Hwan/git/BREIN_ROI/ObJMesh/WebContent/ClientUpload";
-
-			//String id = (String) session.getAttribute("id");
-			String id = "osh";
-			
-			dtilistService service = new dtilistServiceImpl(new dtilistDaoImpl());
-			
-			/* String id = request.getParameter("id"); */
-			
-			/* int type = Integer.parseInt(request.getParameter("type")); */ //����
-				
-			
-			dtilist t = new dtilist(0,id,listsArray[i], filepath,null,null);
-			service.addT1File(t);
+			dtilist d = new dtilist(0, id, listsArray[i], filepath,"", pnum1);
+			service.addDTIFile(d);
 			}
 			
 			
-			String view = "/LoginMemberController?passtype=1&id="+reid+"&pwd="+repwd;
-			
-		
+			String view = "/LoginMemberController?passtype=3&aid="+id+"&pname="+pname;
+		   
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view); 
 			if(dispatcher != null) { dispatcher.forward(request, response); }
 		 
 			}catch(Exception e){
-				String view = "/LoginMemberController?passtype=1";
+				String view = "/ClientFileUploadPageDTI.jsp";
 				response.sendRedirect(view); 
 		/*
 		 * RequestDispatcher dispatcher = request.getRequestDispatcher(view); if

@@ -4,6 +4,12 @@
  <script src="jquery/jquery-3.4.1.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%
+	String id = request.getParameter("aid");
+	String pwd = request.getParameter("apwd");
+	String pname = request.getParameter("apname");
+	String pnum = request.getParameter("pnum");
+%>
 <link rel="stylesheet" href="icon.css" />
 <!DOCTYPE HTML>
 <html>
@@ -109,14 +115,19 @@ var fileName = fileValue[fileValue.length-1];
 			<td class='title1'><a> T1 File Upload </a></td>
 		</tr>
 	</table>
-	<form action="http://brein.korea.ac.kr/brainorigin/saf/T1FileUploadResult.jsp?" method="post" enctype="multipart/form-data">
+	<form action="http://brein.korea.ac.kr/brainorigin/saf/T1FileUploadResult.jsp?pname=<%=pname%>&id=<%=id%>&pwd=<%=pwd%>&pnum=<%=pnum%>" method="post" enctype="multipart/form-data">
 		<table>
 		<tr>
 			<td><div class="ubutton">
-				<label for="uploadfile">업로드</label><input multiple="multiple" type="file" id="uploadfile" name="file1">
+				<label for="uploadfile">Open File</label><input multiple="multiple" type="file" id="uploadfile" name="file1">
 				<!-- <label for="uploadfile">업로드</label><input type="file" id="uploadfile" multiple> -->
 				</div></td>
-			<td colspan="2"><input class="button white" type="submit" value="제출" onclick="location.href='http://brein.korea.ac.kr/brainorigin/saf/ClientFileUploadPage.jsp'"></td>
+			<td colspan="2">
+					<button class="button white">Summit</button>
+					<input type="hidden" name="aid" value="<%=id%>" /> 
+					<input type="hidden" name="apwd" value="<%=pwd%>" />
+					<input type="hidden" name="apname" value="<%=pname%>" />
+					<input type="hidden" name="pnum" value="<%=pnum%>" />
 			<td><textarea  style="display:none;" id="filesList" name="flists"></textarea></td>
 			
 			</tr>			

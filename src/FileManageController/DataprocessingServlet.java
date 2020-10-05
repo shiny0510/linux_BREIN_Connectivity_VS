@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import FileManage.Dataprocessing;
+import FileManage.FMDaoImpl;
+import FileManage.FMService;
+import FileManage.FMServiceImpl;
+import FileManage.FileManager;
 /**
  * Servlet implementation class DataprocessingServlet
  */
@@ -40,20 +44,44 @@ public class DataprocessingServlet extends HttpServlet {
 		try {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String id	= request.getParameter("aid");
+		String pnum	= request.getParameter("pnum");
+		String pname	= request.getParameter("apname");
 		String reid = request.getParameter("process");
-		System.out.println(reid);
-	    
+		int pnum1 =Integer.parseInt(pnum);
+		
+		String reid1[] = reid.split("  ");
+		
+		String Processvalue1 = request.getParameter("Processvalue1");
+		String Processvalue2 = request.getParameter("Processvalue2");
+		
+		String filepath = request.getSession().getServletContext().getRealPath("/") + "ClientUpload";
+		
+		FMService service = new FMServiceImpl(new FMDaoImpl());
+		
+		FileManager f = new FileManager(0,id,reid,filepath,"",pnum1);
+		
+		service.addFile(f);
+		
 		Dataprocessing ProcessStart = new Dataprocessing();
 		
-		ProcessStart.linuxstart(reid);
+		ProcessStart.linuxstart(reid1[0],Processvalue1,Processvalue2);
 		
-		String view = "/LoginMemberController?id=reid & pwd=repwd";
+		String view = "/LoginMemberController?passtype=3&aid="+id+"&pname="+pname;
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		if (dispatcher != null) {
 			dispatcher.forward(request, response);
 		}
 		}catch(Exception e){
-			String view = "/LoginMemberController?passtype=1";
+			String id	= request.getParameter("aid");
+			String pnum	= request.getParameter("pnum");
+			String pname	= request.getParameter("apname");
+			String reid = request.getParameter("process");
+			int pnum1 =Integer.parseInt(pnum);
+			
+			String view = "/LoginMemberController?passtype=3&aid="+id+"&pname="+pname;
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			if (dispatcher != null) {
 				dispatcher.forward(request, response);
